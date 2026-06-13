@@ -56,6 +56,11 @@
   #dockDivider{display:none; position:fixed; top:35px; bottom:0; width:6px; z-index:6; cursor: col-resize; background:transparent;}
   body.mode-split #dockDivider{display:block; right:calc(var(--dockW) - 3px);}
   #dockDivider:hover{background:var(--green);}
+  /* docked (split) calculator: single scrolling column so it stays usable when narrow */
+  body.mode-split .uv-body{flex-direction:column; overflow-y:auto;}
+  body.mode-split .uv-left{flex:none; border-right:none; border-bottom:1px solid var(--border); overflow:visible;}
+  body.mode-split .uv-right{flex:none; overflow:visible;}
+  body.mode-split .uv-sectionwrap{max-width:340px;}
 
   /* ---------- Toolbar ---------- */
   #toolbar{display:flex; align-items:center; gap:6px; padding:8px 12px; background:var(--panel); border-bottom:1px solid var(--border); flex-wrap:wrap; user-select:none;}
@@ -165,6 +170,22 @@
   .c-len{flex:0 0 52px; text-align:right; color:var(--text); font-variant-numeric:tabular-nums; white-space:nowrap;}
   .c-mat{flex:0 0 78px; min-width:0; color:var(--text-dim); font-size:11px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
   .c-mat.has{color:var(--green);}
+  button.c-mat-btn{background:none; border:1px dashed var(--border); border-radius:6px; cursor:pointer; text-align:left; padding:2px 6px; line-height:1.3;}
+  button.c-mat-btn:hover{border-color:var(--green); border-style:solid;}
+  button.c-mat-btn.has{border-style:solid; border-color:rgba(95,179,70,.4);}
+  button.c-mat-btn .addmat{color:var(--text-dim); font-size:10.5px;}
+  /* region list */
+  #regionList{max-height:160px; overflow-y:auto;}
+  .rl-row{display:flex; align-items:center; gap:8px; padding:7px 14px; border-bottom:1px solid rgba(255,255,255,.04); cursor:pointer; font-size:12.5px;}
+  .rl-row:hover{background:rgba(255,255,255,.04);}
+  .rl-row.sel{background:var(--green-glow);}
+  .rl-dot{width:10px; height:10px; border-radius:3px; flex:none;}
+  .rl-name{flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; color:var(--text);}
+  .rl-pg{font-size:10.5px; color:var(--text-dim);}
+  .rl-badge{font-size:9px; background:var(--panel2); border:1px solid var(--border); border-radius:8px; padding:0 6px; color:var(--green); white-space:nowrap;}
+  .rl-eye{background:none; border:none; cursor:pointer; font-size:13px; padding:2px 4px; border-radius:5px; opacity:.7;}
+  .rl-eye:hover{opacity:1; background:rgba(95,179,70,.15);}
+  button.c-mat-btn:hover .addmat{color:var(--green);}
   .mk-row .c-act{flex:0 0 auto; display:flex; align-items:center; gap:2px;}
   .mk-row .badges{display:flex; gap:3px;}
   .mk-badge{font-size:9px; background:var(--panel2); border:1px solid var(--border); border-radius:8px; padding:0 5px; color:var(--text-dim); white-space:nowrap;}
@@ -254,12 +275,20 @@
   .uv-top{display:flex; align-items:center; justify-content:space-between; padding:14px 20px; border-bottom:1px solid var(--border);}
   .uv-top h2{font-size:16px;} .uv-top h2 em{color:var(--green); font-style:normal;}
   .uv-top button{background:none; border:none; color:var(--text-dim); font-size:22px; cursor:pointer;}
+  /* refined header helper buttons */
+  .uv-top #uvTourBtn, .uv-top #uvExplainBtn{flex:none; font-size:12px; font-weight:600; padding:6px 12px; border-radius:20px; border:1px solid var(--border); background:var(--panel2); color:var(--text); display:inline-flex; align-items:center; gap:5px; transition:all .12s;}
+  .uv-top #uvTourBtn:hover, .uv-top #uvExplainBtn:hover{border-color:var(--green); color:var(--green);}
+  .uv-top #uvExplainBtn.on{background:var(--green); border-color:var(--green); color:#fff;}
+  .uv-top #uvalClose{font-size:22px; padding:0 4px; margin-left:2px;}
   .uv-body{display:flex; gap:0; min-height:0; overflow:hidden;}
   .uv-left{flex:1.6; padding:14px 18px; overflow-y:auto; border-right:1px solid var(--border);}
   .uv-right{flex:1; padding:14px 18px; overflow-y:auto; display:flex; flex-direction:column; gap:12px;}
   .uv-grid{display:grid; grid-template-columns:1fr 1fr; gap:9px 12px;}
   .uv-grid label{display:flex; flex-direction:column; gap:3px; font-size:11.5px; color:var(--text-dim);}
   .uv-grid input,.uv-grid select{font-size:13px; padding:6px 8px;}
+  .uv-subhead{font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.5px; color:var(--green); margin:12px 0 6px;}
+  #uvFloorBox{border:1px solid var(--border); border-radius:8px; padding:10px 12px; margin-top:10px; background:rgba(76,155,232,.05);}
+  .uv-floornote{font-size:11px; color:var(--region-accent,#4c9be8); margin-top:6px;}
   .uv-help{display:inline-flex; width:14px; height:14px; border-radius:50%; background:var(--panel2); border:1px solid var(--border); color:var(--text-dim); font-size:10px; align-items:center; justify-content:center; cursor:help; vertical-align:middle;}
   #uvSourceBar,#uvSourceBar2{display:flex; align-items:center; gap:8px; flex-wrap:wrap; background:var(--panel2); border:1px solid var(--border); border-radius:8px; padding:9px 11px; margin-bottom:12px; font-size:12.5px;}
   #uvSourceBar select,#uvSourceBar2 select{flex:1; min-width:160px; font-size:13px; padding:6px 8px;}
@@ -280,7 +309,27 @@
   .uv-layer .l2{display:flex; align-items:center; gap:10px; margin-top:6px; font-size:11.5px; color:var(--text-dim); flex-wrap:wrap;}
   .uv-layer .l2 input[type=number]{width:54px; font-size:12px; padding:3px 5px;}
   .uv-layer .l2 input[type=text]{width:120px; font-size:12px; padding:3px 5px;}
-  .uv-matres{position:relative;}
+  .uv-matres{position:relative; display:flex; align-items:center; gap:2px;}
+  .uv-matres input[data-k=name]{flex:1; min-width:0;}
+  .uv-matpick{flex:none; background:none; border:none; cursor:pointer; font-size:13px; padding:2px 4px; border-radius:5px; color:var(--text-dim);}
+  .uv-matpick:hover{color:var(--green); background:rgba(95,179,70,.12);}
+  /* picture-select popup */
+  #picBack{position:fixed; inset:0; background:rgba(0,0,0,.6); display:none; align-items:center; justify-content:center; z-index:140;}
+  #picBack.open{display:flex;}
+  #picModal{background:var(--panel); border:1px solid var(--border); border-radius:12px; width:min(760px,94vw); max-height:88vh; display:flex; flex-direction:column; overflow:hidden;}
+  .pic-top{display:flex; align-items:center; justify-content:space-between; padding:14px 18px; border-bottom:1px solid var(--border);}
+  .pic-top h2{font-size:16px;} .pic-top h2 em{color:var(--green); font-style:normal;}
+  .pic-top button{background:none; border:none; color:var(--text-dim); font-size:22px; cursor:pointer;}
+  #picGrid{padding:16px 18px; overflow-y:auto; display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:12px;}
+  .pic-tile{border:1px solid var(--border); border-radius:10px; padding:12px; cursor:pointer; background:var(--panel2); transition:all .12s; text-align:left;}
+  .pic-tile:hover{border-color:var(--green); transform:translateY(-2px); box-shadow:0 6px 18px rgba(0,0,0,.3);}
+  .pic-tile.sel{border-color:var(--green); box-shadow:0 0 0 2px rgba(95,179,70,.3);}
+  .pic-tile svg{width:100%; height:64px; display:block; margin-bottom:8px; background:#f4f7fa; border-radius:6px;}
+  .pic-tile .pt{font-size:12.5px; font-weight:600; color:var(--text);}
+  .pic-tile .pn{font-size:11px; color:var(--text-dim); margin-top:3px; line-height:1.3;}
+  #picGrid.mapmode{grid-template-columns:1fr;}
+  .pic-pickbtn{background:none; border:1px solid var(--border); border-radius:6px; cursor:pointer; color:var(--text-dim); font-size:12px; padding:3px 7px; margin-left:4px;}
+  .pic-pickbtn:hover{border-color:var(--green); color:var(--green);}
   .uv-matdrop{position:absolute; z-index:5; left:0; right:0; background:var(--panel2); border:1px solid var(--border); border-radius:6px; margin-top:2px; max-height:160px; overflow-y:auto; box-shadow:0 8px 20px rgba(0,0,0,.5);}
   .uv-matdrop button{display:flex; justify-content:space-between; gap:8px; width:100%; text-align:left; background:none; border:none; color:var(--text); padding:6px 9px; font-size:12px; cursor:pointer;}
   .uv-matdrop button:hover{background:var(--green); color:#fff;}
@@ -590,6 +639,7 @@
       <div class="sum-card"><div class="v" id="sumCount">0</div><div class="k">Markups</div></div>
     </div>
     <div id="mkToolbar">
+      <button class="mk-btn" id="mkAssignMat" title="Assign a material to the selected markup(s)">✎ Material</button>
       <button class="mk-btn" id="sbBuildup" title="Build-up summary for U-values">Build-up</button>
       <button class="mk-btn" id="sbExportPdf" title="Export flattened PDF with markups">Export PDF</button>
     </div>
@@ -616,6 +666,10 @@
       <span class="c-mat" id="mkHeadMat">Material</span>
     </div>
     <div id="mkList"><div style="padding:18px 14px;color:var(--text-dim);font-size:12.5px" id="mkEmpty">No markups yet. Pick a tool and click on the drawing.</div></div>
+    <div id="regionListWrap" style="display:none">
+      <div class="sb-head">Detail regions</div>
+      <div id="regionList"></div>
+    </div>
     <div id="props">
       <div class="sb-head" style="border:none;padding:0 0 2px">Properties — <span id="propType" style="color:var(--green)"></span></div>
       <div class="row" id="pLabelRow"><span>Label</span><input type="text" id="pLabel" placeholder="e.g. Kitchen wall" style="width:160px"></div>
@@ -959,15 +1013,39 @@
             <select id="uvTies"></select>
           </label>
         </div>
+        <div id="uvFloorBox" style="display:none">
+          <div class="uv-subhead">Ground / floor parameters <span class="uv-help" data-help="floor">?</span> <span style="color:var(--text-dim);font-weight:400">BS EN ISO 13370</span></div>
+          <div class="uv-grid">
+            <label>Floor type
+              <select id="uvFloorKind"><option value="solid">Solid — ground-bearing slab</option><option value="suspended">Suspended (ventilated void)</option><option value="exposed">Exposed floor (over open air)</option></select>
+            </label>
+            <label>Ground / soil
+              <select id="uvSoil"><option value="1.5">Clay / silt (λ 1.5)</option><option value="2.0" selected>Sand / gravel (λ 2.0)</option><option value="3.5">Homogeneous rock (λ 3.5)</option></select>
+            </label>
+            <label>Exposed perimeter P (m)<input type="number" id="uvPerim" step="0.1" placeholder="e.g. 30"></label>
+            <label>Floor area A (m²)<input type="number" id="uvArea" step="0.1" placeholder="e.g. 50"></label>
+            <label>P/A ratio (1/m)<input type="number" id="uvPA" step="0.01" placeholder="auto from P,A"></label>
+            <label>Wall thickness w (m)<input type="number" id="uvWallThk" value="0.3" step="0.01"></label>
+          </div>
+          <div id="uvSuspBox" style="display:none">
+            <div class="uv-grid" style="margin-top:7px">
+              <label>Void height above ground (m)<input type="number" id="uvVoidH" value="0.3" step="0.05"></label>
+              <label>Underfloor wall U (W/m²K)<input type="number" id="uvVoidUw" value="1.5" step="0.1"></label>
+              <label>Vent area / perimeter (m²/m)<input type="number" id="uvVentE" value="0.0015" step="0.0005"></label>
+              <label>Mean wind speed (m/s)<input type="number" id="uvWind" value="4" step="0.5"></label>
+            </div>
+          </div>
+          <div class="uv-floornote" id="uvFloorNote"></div>
+        </div>
         <div class="uv-grid" style="margin-top:9px">
           <label>Wall / element ref <input type="text" id="uvWall" placeholder="e.g. Cavity wall — Type A"></label>
           <label>Detail / drawing ref <input type="text" id="uvDetail" placeholder="e.g. CA01 eaves"></label>
         </div>
-        <div class="uv-layhead"><span>Layers — inside → outside</span><span><button class="btn-sm" id="uvFromSpec" title="Paste an architect's written wall build-up">📝 From written spec</button><button class="btn-sm" id="uvAddLayer">＋ Layer</button><button class="btn-sm" id="uvAddAir">＋ Air gap</button></span></div>
+        <div class="uv-layhead"><span id="uvLayHeadLbl">Layers — inside → outside</span><span><button class="btn-sm" id="uvUndo" title="Undo">↶</button><button class="btn-sm" id="uvRedo" title="Redo">↷</button><button class="btn-sm" id="uvFromSpec" title="Paste an architect's written wall build-up">📝 From written spec</button><button class="btn-sm" id="uvAddLayer">＋ Layer</button><button class="btn-sm" id="uvAddAir">＋ Air gap</button></span></div>
         <div id="uvLayers"></div>
       </div>
       <div class="uv-right">
-        <div class="uv-sectionwrap"><div id="uvSection"></div><div class="uv-seccap">Section preview (inside → outside)</div></div>
+        <div class="uv-sectionwrap"><div id="uvSection"></div><div class="uv-seccap" id="uvSecCap">Section preview (inside → outside)</div></div>
         <div class="uv-result">
           <div class="uv-u"><span id="uvU">—</span><span class="un">W/m²K</span></div>
           <div class="uv-rdetail" id="uvRdetail"></div>
@@ -977,11 +1055,18 @@
         <div id="uvChartBox" style="display:none"></div>
         <div class="uv-rep">
           <label style="font-size:11px;color:var(--text-dim)">Report type</label>
-          <select id="uvRepType"><option value="both">U-value + condensation</option><option value="uvalue">U-value only</option><option value="cond">Condensation only</option><option value="validation">Validation (proof against test cases)</option></select>
+          <select id="uvRepType"><option value="" selected>Please select…</option><option value="uvalue">U-value only</option><option value="both">U-value and condensation</option><option value="cond">Condensation only</option><option value="validation">Validation (proof against test cases)</option></select>
           <button class="btn-sm" id="uvReport" style="border-color:var(--green);color:var(--green)">Produce report ▸</button>
         </div>
       </div>
     </div>
+  </div>
+</div>
+
+<div id="picBack">
+  <div id="picModal">
+    <div class="pic-top"><h2 id="picTitle"><em>Choose</em></h2><button id="picClose" title="Close">×</button></div>
+    <div id="picGrid"></div>
   </div>
 </div>
 
@@ -1957,6 +2042,38 @@ function selectRegion(id){
   if (id){ state.selectedId=null; showProps(); }
   syncScaleUI();
 }
+// zoom the viewer to fit a detail region
+async function zoomToRegion(id){
+  const r=regionById(id); if(!r) return;
+  if (r.page!==state.pageNum){ state.pageNum=r.page; await renderPage(); }
+  const vw=vwrap.getBoundingClientRect();
+  const margin=40;
+  const z=Math.min((vw.width-margin)/(r.w), (vw.height-margin)/(r.h));
+  setZoom(Math.max(0.1,Math.min(8,z)));
+  // centre on the region
+  vwrap.scrollLeft=(r.x+r.w/2)*state.zoom - vw.width/2;
+  vwrap.scrollTop=(r.y+r.h/2)*state.zoom - vw.height/2;
+  selectRegion(id); drawOverlay();
+  setHint('Zoomed to "'+(r.title||'Detail')+'"');
+}
+function renderRegionList(){
+  const wrap=$('regionListWrap'), list=$('regionList'); if(!list) return;
+  const regs=state.regions||[];
+  wrap.style.display = regs.length ? 'block' : 'none';
+  if(!regs.length){ list.innerHTML=''; return; }
+  list.innerHTML = regs.map(r=>{
+    const purpose = r.purpose&&r.purpose!=='markup' ? `<span class="rl-badge">${r.purpose==='uval'?'U-value':r.purpose==='psiu'?'Psi+U':r.purpose==='psi'?'Psi':''}</span>` : '';
+    return `<div class="rl-row${r.id===state.selectedRegionId?' sel':''}" data-id="${r.id}">
+      <span class="rl-dot" style="background:${r.color||'#4c9be8'}"></span>
+      <span class="rl-name" title="${escapeHtml(r.title||'Detail')}">${escapeHtml(r.title||'Detail')}</span>
+      <span class="rl-pg">p${r.page}</span>${purpose}
+      <button class="rl-eye" title="Zoom to this detail">👁</button></div>`;
+  }).join('');
+  list.querySelectorAll('.rl-row').forEach(row=>{
+    const id=parseInt(row.dataset.id);
+    row.addEventListener('click',e=>{ if(e.target.classList.contains('rl-eye')){ zoomToRegion(id); return; } selectRegion(id); drawOverlay(); });
+  });
+}
 function finishRegionDraft(){
   const d=state.regionDraft; state.regionDraft=null;
   if (!d){ return; }
@@ -2102,6 +2219,7 @@ function updateSidebar(){
   const sb=$('sidebar'); if(sb){ sb.classList.toggle('nocol-len', settings.mkCols && settings.mkCols.len===false); sb.classList.toggle('nocol-mat', settings.mkCols && settings.mkCols.mat===false); }
   applySummaryCards();
   if (typeof updateHintBox==='function') updateHintBox();
+  if (typeof renderRegionList==='function') renderRegionList();
 
   const list=$('mkList');
   list.innerHTML='';
@@ -2168,16 +2286,17 @@ function updateSidebar(){
     const nm = escapeHtml(m.label)||TYPE_NAMES[m.type];
     const sub = `${TYPE_NAMES[m.type]} · p${m.page}${m.buGroup?' · '+escapeHtml(m.buGroup):''}`;
     const lenCol = ['linear','perimeter','area','angle','dimnote'].includes(m.type) ? escapeHtml(measureText(m)) : '—';
-    const matCol = m.material ? escapeHtml(m.material) : '—';
+    const matCol = m.material ? escapeHtml(m.material) : '<span class="addmat">＋ material</span>';
     d.innerHTML=`<div class="swatch" style="background:${m.color}"></div>
       <div class="c-name"><span class="nm">${nm}</span><span class="sub">${sub}</span></div>
       <span class="c-len" title="Measured length / area">${lenCol}</span>
-      <span class="c-mat ${m.material?'has':''}" title="${m.material?'Assigned material'+(m.lambda!=null?' · λ '+m.lambda:''):'No material assigned'}">${matCol}</span>
+      <button class="c-mat c-mat-btn ${m.material?'has':''}" title="${m.material?'λ '+(m.lambda!=null?m.lambda:'?')+' — click to change material':'Click to assign a material'}">${matCol}</button>
       ${badges}
       <span class="c-act">${lockBtn}<button class="del" title="Delete">×</button></span>`;
     d.addEventListener('click', async e=>{
       if (e.target.classList.contains('del')){ deleteMarkup(m.id); return; }
       if (e.target.classList.contains('lk')){ toggleLock(m.id); return; }
+      if (e.target.closest('.c-mat-btn')){ assignMaterialTo([m]); return; }
       state.selectedId=m.id;
       if (m.page!==state.pageNum){ state.pageNum=m.page; await renderPage(); }
       else drawOverlay();
@@ -3008,8 +3127,21 @@ vwrap.addEventListener('wheel', e=>{
     f=Math.max(0.8, Math.min(1.25, f)); // cap per-event step
     setZoomInteractive(state.zoom*f, e.clientX-vwrap.getBoundingClientRect().left, e.clientY-vwrap.getBoundingClientRect().top);
   }
-  // else: let the browser scroll/pan the container (native, smooth on trackpads)
+  // else: normal scroll mode — let the browser scroll, and auto-flip pages at the edges
+  else if (state.pdfDoc && !wheelZoomOn){
+    const atBottom = vwrap.scrollTop + vwrap.clientHeight >= vwrap.scrollHeight - 2;
+    const atTop = vwrap.scrollTop <= 1;
+    const now = Date.now();
+    if (e.deltaY>0 && atBottom && state.pageNum<state.pageCount && now-_lastPageFlip>450){
+      e.preventDefault(); _lastPageFlip=now;
+      gotoPage(state.pageNum+1).then(()=>{ vwrap.scrollTop=0; });
+    } else if (e.deltaY<0 && atTop && state.pageNum>1 && now-_lastPageFlip>450){
+      e.preventDefault(); _lastPageFlip=now;
+      gotoPage(state.pageNum-1).then(()=>{ vwrap.scrollTop=vwrap.scrollHeight; });
+    }
+  }
 },{passive:false});
+let _lastPageFlip=0;
 function toggleWheelZoom(){ wheelZoomOn=!wheelZoomOn; settings.wheelZoom=wheelZoomOn; saveSettings(); $('btnWheelZoom').classList.toggle('active',wheelZoomOn); setHint('Scroll-wheel zoom '+(wheelZoomOn?'ON — wheel zooms at cursor · drag empty space to pan':'off — wheel scrolls')); }
 function toggleSnap(){ snap.on=!snap.on; settings.snapOn=snap.on; saveSettings(); snap.hit=null; $('btnSnap').classList.toggle('active',snap.on); if(snap.on) buildSnapPoints(); if(state.pdfDoc) drawOverlay(); setHint('Snap to PDF geometry '+(snap.on?'ON — hold Alt to bypass':'off')); }
 $('btnWheelZoom').addEventListener('click',toggleWheelZoom);
@@ -4104,9 +4236,18 @@ function updateSelBar(){
 function selMarkups(){ return [...state.multiSel].map(id=>state.markups.find(m=>m.id===id)).filter(Boolean); }
 function clearMultiSel(){ state.multiSel.clear(); drawOverlay(); updateSelBar(); }
 $('selClear').addEventListener('click',clearMultiSel);
-$('selMaterial').addEventListener('click',()=>{
-  const ms=selMarkups(); if(!ms.length) return;
+// shared: open the material picker and apply to the given markups
+function assignMaterialTo(ms){
+  if(!ms||!ms.length){ setHint('Select a markup first (click it, or use the select box)'); return; }
   pickMaterial(m=>{ snapshot(); ms.forEach(mk=>{ mk.material=m.n; mk.lambda=m.l; mk.mu=UV.muFor(m); if(!mk.label) mk.label=m.n; }); drawOverlay(); updateSidebar(); setHint('Assigned '+m.n+' (λ '+m.l+') to '+ms.length+' measurement'+(ms.length>1?'s':'')); });
+}
+$('selMaterial').addEventListener('click',()=>assignMaterialTo(selMarkups()));
+// top-of-panel material button: assign to the selected markup(s)
+$('mkAssignMat')&&$('mkAssignMat').addEventListener('click',()=>{
+  let ms=selMarkups();
+  if(!ms.length && state.selectedId){ const m=state.markups.find(x=>x.id===state.selectedId); if(m) ms=[m]; }
+  if(!ms.length){ setHint('Click a markup in the list (or select boxes) first, then assign a material'); return; }
+  assignMaterialTo(ms);
 });
 $('selSuggest').addEventListener('click',()=>{
   const ms=selMarkups(); if(!ms.length) return;
@@ -4283,13 +4424,13 @@ function applyBuildupToTemplate(idx){
   } else {
     const t=UV.TEMPLATES[idx];
     const pool=pb.layers.map(l=>({...l,used:false}));
-    layers=t.layers.map(slot=>{
-      const L=Object.assign(uvNewLayer(),slot);
-      if (!slot.isAir){
-        const cat=matCat(slot.name);
-        const match=pool.find(p=>!p.used && matCat(p.name)===cat);
-        if (match){ match.used=true; if(match.d) L.d=match.d; if(match.lambda) L.lambda=match.lambda; if(match.mu!=null) L.mu=match.mu; if(match.name) L.name=match.name; }
-      }
+    // Map onto the template's SOLID slots only — don't inject the template's own air gaps/voids
+    // into the user's measured build-up (add cavities explicitly with ＋ Air gap if needed).
+    layers=t.layers.filter(slot=>!slot.isAir).map(slot=>{
+      const L=Object.assign(uvNewLayer(),slot); delete L.isAir; L.isAir=false;
+      const cat=matCat(slot.name);
+      const match=pool.find(p=>!p.used && matCat(p.name)===cat);
+      if (match){ match.used=true; if(match.d) L.d=match.d; if(match.lambda) L.lambda=match.lambda; if(match.mu!=null) L.mu=match.mu; if(match.name) L.name=match.name; }
       return L;
     });
     // append measured layers that didn't match any slot
@@ -4343,6 +4484,42 @@ UV.airR=(mm,dir,lowE)=>{ const t=(lowE?UV.AIR_LOWE:UV.AIR)[dir]||(lowE?UV.AIR_LO
 // wall-tie / fastener ΔU corrections (BR 443, indicative W/m²K)
 UV.TIES={ none:{label:'None / not applicable', du:0}, ss:{label:'Stainless steel ties (negligible)', du:0.00}, basalt:{label:'Basalt / GFRP ties', du:0.00}, galv:{label:'Galvanised steel ties (~2.5/m²)', du:0.01}, dense:{label:'Steel ties, dense (~5/m²)', du:0.02} };
 UV.DELTA0=2e-10;
+// ---- BS EN ISO 13370 ground-coupled floors ----
+UV.SOIL={ '1.5':'Clay / silt (λ 1.5)', '2.0':'Sand / gravel (λ 2.0)', '3.5':'Homogeneous rock (λ 3.5)' };
+// Rf = construction resistance of the floor build-up (m²K/W, excluding surface resistances)
+// pa = exposed perimeter / floor area (1/m).  Returns the in-situ floor U-value.
+UV.groundFloorU=function(kind, Rf, pa, w, lamSoil, opt){
+  opt=opt||{};
+  pa=Math.max(0.01, pa);
+  const Bp = 2/pa;                       // characteristic dimension B' = A/(0.5P) = 2/(P/A)
+  const Rsi=0.17, Rse=0.04;
+  const slab=(dt)=> dt<Bp ? (2*lamSoil/(Math.PI*Bp+dt))*Math.log(Math.PI*Bp/dt+1) : lamSoil/(0.457*Bp+dt);
+  if (kind==='suspended'){
+    const Uf = 1/(Rsi + Rf + Rsi);       // floor deck, room↔void (both internal-type surfaces 0.17)
+    const dg = w + lamSoil*(Rsi+Rse);    // ground path under the void (no floor insulation)
+    const Ug = slab(dg);
+    const h  = opt.h!=null?opt.h:0.3;     // height of floor above external ground (m)
+    const Uw = opt.Uw!=null?opt.Uw:1.5;   // U of the underfloor (sleeper) walls above ground
+    const eps= opt.eps!=null?opt.eps:0.0015; // vent opening area per unit perimeter (m²/m)
+    const v  = opt.v!=null?opt.v:4;        // mean local wind speed (m/s)
+    const fw = opt.fw!=null?opt.fw:0.05;   // wind shield factor
+    const Ux = (2*h*Uw)/Bp + (1450*eps*v*fw)/Bp;  // walls + ventilation of the void
+    const U  = 1/(1/Uf + 1/(Ug+Ux));
+    return { U, Uf, Ug, Ux, Bp, kind };
+  }
+  // solid ground-bearing slab
+  const dt = w + lamSoil*(Rsi + Rf + Rse);
+  const U  = slab(dt);
+  return { U, Bp, dt, kind };
+};
+// Underfloor void temperature for a suspended floor (heat balance room↔void↔ground/air)
+UV.voidTemp=function(Rf, pa, w, lamSoil, Ti, Te, opt){
+  const g=UV.groundFloorU('suspended', Rf, pa, w, lamSoil, opt);
+  // void temperature from balance:  Uf(Ti-Tv) = (Ug+Ux)(Tv-Te)
+  const Uf=g.Uf, Uge=g.Ug+g.Ux;
+  const Tv=(Uf*Ti + Uge*Te)/(Uf+Uge);
+  return { Tv, ...g };
+};
 UV.DPMAX={1:270,2:540,3:810,4:1080,5:1350};
 UV.deltaP=(cls,Te)=>{ const m=UV.DPMAX[cls]||810; if(Te<=0)return m; if(Te>=20)return 0; return m*(20-Te)/20; };
 // vapour resistance factor μ by material category/name keyword
@@ -4431,7 +4608,8 @@ UV.HELP={
   exposure:'External surface resistance Rse reflects wind exposure. SAP 10 uses Rse = 0.04 (Normal) for most assessments. Use Sheltered (0.06) for protected/urban locations and Exposed (0.02) for coastal/high or fully exposed elements. This is a design sensitivity option — for SAP submissions keep Normal unless your methodology states otherwise.',
   moisture:'Internal humidity class (BS EN ISO 13788). Class 3 suits typical dwellings, Class 4 high-occupancy/poorly ventilated dwellings, Class 5 swimming pools/laundries. The class sets the internal moisture excess vs outdoor temperature. Choose "Fixed RH" to enter a constant internal relative humidity instead.',
   target:'The U-value your element is compared against. "New build — notional" is the Part L 2021 (England) Future Homes notional fabric standard (the design aspiration). "New build — limiting" is the worst allowable (backstop). "Existing — renovation" applies when upgrading/renovating a thermal element. Always confirm the applicable standard and value against the current Approved Document L for your project and region.',
-  ties:'Metal wall ties (or fasteners) that bridge an insulated cavity add a small point-thermal-bridge correction ΔU (BS EN ISO 6946 / BR 443). Stainless steel and basalt/GFRP ties are usually negligible; galvanised steel ties add a little. Pick the tie type — the ΔU is added to the calculated U-value. Confirm tie spec and density for your project.'
+  ties:'Metal wall ties (or fasteners) that bridge an insulated cavity add a small point-thermal-bridge correction ΔU (BS EN ISO 6946 / BR 443). Stainless steel and basalt/GFRP ties are usually negligible; galvanised steel ties add a little. Pick the tie type — the ΔU is added to the calculated U-value. Confirm tie spec and density for your project.',
+  floor:'Ground floors lose heat to the soil, so the U-value depends on the floor size and shape, not just the build-up (BS EN ISO 13370). Enter the exposed perimeter P (the length of floor edge against external walls) and the floor area A — the calculator forms the characteristic dimension B′ = 2A/P. A big floor (low P/A) loses less per m² than a small one. Choose the soil type and the wall thickness. For a suspended floor, the heat also crosses a ventilated void: enter the void/ventilation details and the calculator combines the deck, the ground and the ventilation, and estimates the void temperature.'
 };
 // Part L (England, AD L 2021) indicative target U-values by element (W/m²K). Confirm against current AD L.
 UV.TARGETS={
@@ -4439,6 +4617,8 @@ UV.TARGETS={
   'new-limiting':{ label:'New build — limiting/backstop (Part L 2021)', wall:0.26, floor:0.18, roof:0.16 },
   'ext-renovation':{ label:'Existing — renovation of thermal element', wall:0.30, floor:0.25, roof:0.16 },
   'ext-newelement':{ label:'Existing — new thermal element/extension', wall:0.18, floor:0.18, roof:0.15 },
+  'passivhaus':{ label:'Passivhaus (cool-temperate guideline ≤0.15)', wall:0.15, floor:0.15, roof:0.15 },
+  'enerphit':{ label:'EnerPHit retrofit (guideline)', wall:0.25, floor:0.30, roof:0.20 },
   'custom':{ label:'Custom target…', wall:null, floor:null, roof:null },
 };
 UV.targetFor=function(){
@@ -4474,7 +4654,7 @@ UV.TEMPLATES=[
   {g:'Walls',n:'Steel/SFS infill wall', type:'wall', exp:'normal', layers:[L('Plasterboard x2',0.21,25),L('Mineral wool in SFS',0.035,150,{bridged:true,bpct:1,blambda:50}),L('Sheathing board',0.20,12,{mu:30}),L('PIR over-board',0.022,80),L('Rainscreen cavity',0,50,{isAir:true,airType:'well'})]},
   {g:'Floors',n:'Suspended timber ground floor', type:'floor', exp:'normal', susp:true, layers:[L('Floor finish (timber)',0.13,20),L('Chipboard deck',0.14,22),L('Mineral wool between joists',0.035,150,{bridged:true,bpct:12,blambda:0.12})]},
   {g:'Floors',n:'Solid concrete ground floor — insulation under slab', type:'floor', exp:'normal', layers:[L('Sand/cement screed',1.28,65),L('PIR under screed',0.022,100),L('DPM',0.5,1,{mu:60000}),L('Concrete slab',1.35,150),L('Sand blinding',1.2,50),L('Hardcore',2.0,150)]},
-  {g:'Floors',n:'Beam & block ground floor + insulation', type:'floor', exp:'normal', layers:[L('Screed',1.28,65),L('PIR',0.022,90),L('Beam & block',1.30,150),AIRL(150,'slightly')]},
+  {g:'Floors',n:'Beam & block ground floor + insulation', type:'floor', exp:'normal', layers:[L('Screed',1.28,65),L('PIR',0.022,90),L('Concrete infill block',1.13,150,{bridged:true,bw:100,bsp:520,bpct:19.2,blambda:2.0})]},
   {g:'Roofs',n:'Pitched roof — insulation at ceiling (cold loft)', type:'roof', exp:'normal', layers:[L('Plasterboard',0.21,12.5),L('Mineral wool between joists',0.035,100,{bridged:true,bpct:8,blambda:0.12}),L('Mineral wool over joists',0.035,200)]},
   {g:'Roofs',n:'Pitched roof — insulation at rafter (warm roof)', type:'roof', exp:'normal', layers:[L('Plasterboard',0.21,12.5),L('PIR under rafter',0.022,40),L('PIR between rafters',0.022,100,{bridged:true,bpct:12,blambda:0.12}),AIRL(50,'well'),L('Breather membrane',0.2,1,{mu:5}),L('Tile',1.0,20)]},
   {g:'Roofs',n:'Flat roof — warm deck', type:'roof', exp:'normal', layers:[L('Plasterboard',0.21,12.5),L('Concrete/timber deck',0.13,18),L('VCL',0.33,1,{mu:50000}),L('PIR flat roof board',0.022,140),L('Waterproof membrane',0.23,5,{mu:5000})]},
@@ -4486,16 +4666,31 @@ UV.TEMPLATES=[
 let uvLayers=[]; // {material, lambda, d(mm), mu, isAir, airType, bridged, bpct, blambda}
 function uvNewLayer(){ return {name:'',lambda:0.04,d:50,mu:null,isAir:false,airType:'unvent',bridged:false,bpct:15,blambda:0.12}; }
 function uvNewAir(){ return {name:'Air cavity',lambda:0,d:25,mu:1,isAir:true,airType:'unvent',bridged:false,bpct:0,blambda:0}; }
+// el: which element types this applies to. w=member width mm, s=centres mm, nog=default noggin spacing mm (walls), l=bridge λ.
 const BRIDGE_SUGGEST=[
-  {t:'Timber studs/joists @ 600mm c/c', p:15, l:0.12},
-  {t:'Timber studs/joists @ 400mm c/c', p:22, l:0.12},
-  {t:'Rafters @ 600mm c/c', p:12, l:0.12},
-  {t:'Mortar joints (blockwork)', p:6.6, l:0.88},
-  {t:'Mortar joints (aircrete, thin-joint)', p:3.5, l:0.40},
-  {t:'Steel studs (light gauge)', p:1, l:50},
+  {t:'Timber studs @ 600 c/c (+noggins)', el:['wall'], w:38, s:600, nog:1200, l:0.12},
+  {t:'Timber studs @ 400 c/c (+noggins)', el:['wall'], w:38, s:400, nog:1200, l:0.12},
+  {t:'Steel (SFS) studs, light gauge', el:['wall'], w:1, s:600, l:50, geomOff:true, p:1},
+  {t:'Timber rafters @ 600 c/c', el:['roof'], w:47, s:600, l:0.12},
+  {t:'Timber rafters @ 400 c/c', el:['roof'], w:47, s:400, l:0.12},
+  {t:'Ceiling joists @ 600 c/c', el:['roof'], w:47, s:600, l:0.12},
+  {t:'Timber joists @ 600 c/c', el:['floor'], w:47, s:600, l:0.12},
+  {t:'Timber joists @ 400 c/c', el:['floor'], w:47, s:400, l:0.12},
+  {t:'Concrete beams (beam & block)', el:['floor'], w:100, s:520, l:2.0},
+  {t:'Mortar joints (dense blockwork)', el:['wall','floor','roof'], p:6.6, l:0.88, geomOff:true},
+  {t:'Mortar joints (aircrete, thin-joint)', el:['wall','floor','roof'], p:3.5, l:0.40, geomOff:true},
 ];
+// fraction (%) from geometry: members of width w at spacing s, plus optional noggins at vertical spacing nog
+function bridgeFrac(w,s,nog){
+  if(!(w>0&&s>0)) return null;
+  const fh=w/s; let f=fh;
+  if(nog>0){ const fv=w/nog; f=fh+fv-fh*fv; }   // combine without double-counting intersections
+  return Math.min(99.9, Math.max(0, f*100));
+}
 function isFoilFaced(L){ return L && !L.isAir && /foil|low-e|low e|multifoil|kooltherm|pir|phenolic/i.test((L.name||'')); }
 function uvRenderLayers(){
+  const elType = ($('uvType')&&$('uvType').value)||'wall';
+  { const lh=$('uvLayHeadLbl'); if(lh) lh.textContent = elType==='floor' ? 'Layers — top (room) → bottom (ground/void)' : elType==='roof' ? 'Layers — bottom (room) → top (outside)' : 'Layers — inside → outside'; }
   // auto-detect low-E air gaps from foil-faced neighbours (only if not set yet)
   uvLayers.forEach((L,i)=>{ if(L.isAir && L.lowE===undefined){ L.lowE = isFoilFaced(uvLayers[i-1])||isFoilFaced(uvLayers[i+1]); } });
   const box=$('uvLayers'); box.innerHTML='';
@@ -4505,42 +4700,49 @@ function uvRenderLayers(){
     const d=document.createElement('div'); d.className='uv-layer';
     if (L.isAir){
       d.innerHTML=`<div class="l1"><span class="drag">≡</span>
-        <span style="font-size:12.5px;color:var(--text)">Air gap
-          <select data-k="airType" style="font-size:11px;margin-left:4px"><option value="unvent">unventilated</option><option value="slightly">slightly ventilated</option><option value="well">well ventilated</option></select>
-          <label style="font-size:10.5px;color:var(--text-dim);margin-left:6px" title="Low-emissivity (foil) surface — higher resistance"><input type="checkbox" data-k="lowE" ${L.lowE?'checked':''} style="accent-color:var(--green)"> low-E</label></span>
+        <span style="font-size:12.5px;color:var(--text);display:flex;align-items:center;gap:5px;min-width:0">Air gap
+          <select data-k="airType" style="font-size:11px;min-width:0"><option value="unvent">unventilated</option><option value="slightly">slightly ventilated</option><option value="well">well ventilated</option></select></span>
         <span style="text-align:center;color:var(--text-dim);font-size:11px">air</span>
         <input type="number" data-k="d" value="${L.d}" step="1" title="thickness mm">
         <span style="text-align:center;color:var(--text-dim);font-size:11px">—</span>
-        <span class="lctrl"><button class="up" title="Move up">▲</button><button class="dn" title="Move down">▼</button><button class="x" title="Remove">×</button></span></div>`;
+        <span class="lctrl"><button class="up" title="Move up">▲</button><button class="dn" title="Move down">▼</button><button class="x" title="Remove">×</button></span></div>
+        <div class="l2"><label title="Low-emissivity (foil) surface faces this cavity — gives a higher air-gap resistance"><input type="checkbox" data-k="lowE" ${L.lowE?'checked':''} style="accent-color:var(--green)"> Low-emissivity (foil) surface to cavity</label></div>`;
     } else {
       const sel=L.bridged?'checked':'';
       d.innerHTML=`<div class="l1"><span class="drag">≡</span>
-        <span class="uv-matres"><input type="text" data-k="name" value="${escapeHtml(L.name)}" placeholder="material — type to search λ" autocomplete="off"><div class="uv-matdrop" style="display:none"></div></span>
+        <span class="uv-matres"><input type="text" data-k="name" value="${escapeHtml(L.name)}" placeholder="material — type to search λ" autocomplete="off"><button class="uv-matpick" title="Open searchable material library">🔍</button><div class="uv-matdrop" style="display:none"></div></span>
         <input type="number" data-k="lambda" value="${L.lambda}" step="0.001" title="λ">
         <input type="number" data-k="d" value="${L.d}" step="1" title="thickness mm">
         <input type="number" data-k="mu" value="${L.mu!=null?L.mu:UV.muFor(L)}" step="1" title="vapour resistance μ">
         <span class="lctrl"><button class="up" title="Move up">▲</button><button class="dn" title="Move down">▼</button><button class="x" title="Remove">×</button></span></div>
         <div class="l2"><label><input type="checkbox" data-k="bridged" ${sel} style="accent-color:var(--green)"> Bridged</label>
-          <span class="brwrap" style="${L.bridged?'':'display:none'}">at <input type="number" data-k="bpct" value="${L.bpct}" step="0.5">% by λ <input type="number" data-k="blambda" value="${L.blambda}" step="0.01">
-          <select class="brsug" style="font-size:11px"><option value="">suggest…</option>${BRIDGE_SUGGEST.map((s,si)=>`<option value="${si}">${s.t}</option>`).join('')}</select></span>
+          <span class="brwrap" style="${L.bridged?'':'display:none'};display:${L.bridged?'flex':'none'};flex-wrap:wrap;align-items:center;gap:6px">
+            <select class="brsug" style="font-size:11px"><option value="">suggest…</option>${BRIDGE_SUGGEST.filter(s=>!s.el||s.el.includes(elType)).map(s=>`<option value="${BRIDGE_SUGGEST.indexOf(s)}">${s.t}</option>`).join('')}</select>
+            <span class="brgeom">width <input type="number" data-k="bw" value="${L.bw!=null?L.bw:''}" step="1" style="width:48px" title="bridging member width (mm)">mm @ <input type="number" data-k="bsp" value="${L.bsp!=null?L.bsp:''}" step="5" style="width:54px" title="centres (mm)">c/c${elType==='wall'?` <span class="nogwrap">× <input type="number" data-k="bnog" value="${L.bnog!=null?L.bnog:''}" step="10" style="width:54px" title="vertical noggin spacing (mm)">noggin</span>`:''}</span>
+            <span style="white-space:nowrap">= <input type="number" data-k="bpct" value="${L.bpct}" step="0.5" style="width:50px">% by λ <input type="number" data-k="blambda" value="${L.blambda}" step="0.01" style="width:56px"></span>
+          </span>
         </div>`;
     }
     box.appendChild(d);
+    const at=d.querySelector('[data-k="airType"]'); if(at) at.value=L.airType||'unvent';
     // wire inputs
     d.querySelectorAll('[data-k]').forEach(inp=>{
       const k=inp.dataset.k;
       inp.addEventListener(inp.type==='checkbox'?'change':'input',()=>{
-        if (k==='bridged'){ L.bridged=inp.checked; uvRenderLayers(); uvRecalc(); return; }
+        if (k==='bridged'){ uvSnapshot(); L.bridged=inp.checked; uvRenderLayers(); uvRecalc(); return; }
         if (inp.type==='checkbox') L[k]=inp.checked;
         else if (inp.type==='number') L[k]=parseFloat(inp.value);
         else L[k]=inp.value;
         if (k==='name'){ uvMatDrop(inp, L, d); }
+        // geometry → fraction
+        if (k==='bw'||k==='bsp'||k==='bnog'){ const f=bridgeFrac(L.bw,L.bsp,elType==='wall'?L.bnog:0); if(f!=null){ L.bpct=Math.round(f*10)/10; const pf=d.querySelector('[data-k="bpct"]'); if(pf) pf.value=L.bpct; } }
         uvRecalc();
       });
     });
-    const sug=d.querySelector('.brsug'); if(sug) sug.addEventListener('change',e=>{ const s=BRIDGE_SUGGEST[e.target.value]; if(s){ L.bpct=s.p; L.blambda=s.l; uvRenderLayers(); uvRecalc(); } });
-    d.querySelector('.x').addEventListener('click',()=>{ uvLayers.splice(i,1); uvRenderLayers(); uvRecalc(); });
-    const mv=(a,b)=>{ if(b<0||b>=uvLayers.length) return; const t=uvLayers[a]; uvLayers[a]=uvLayers[b]; uvLayers[b]=t; uvRenderLayers(); uvRecalc(); };
+    const sug=d.querySelector('.brsug'); if(sug) sug.addEventListener('change',e=>{ const s=BRIDGE_SUGGEST[e.target.value]; if(s){ L.blambda=s.l; if(s.geomOff){ L.bpct=s.p; L.bw=null; L.bsp=null; L.bnog=null; } else { L.bw=s.w; L.bsp=s.s; L.bnog=s.nog||null; const f=bridgeFrac(s.w,s.s,elType==='wall'?(s.nog||0):0); if(f!=null) L.bpct=Math.round(f*10)/10; } uvRenderLayers(); uvRecalc(); } });
+    const mp=d.querySelector('.uv-matpick'); if(mp) mp.addEventListener('click',()=>{ pickMaterial(m=>{ uvSnapshot(); L.name=m.n; L.lambda=m.l; L.mu=UV.muFor(m); uvRenderLayers(); uvRecalc(); }); });
+    d.querySelector('.x').addEventListener('click',()=>{ uvSnapshot(); uvLayers.splice(i,1); uvRenderLayers(); uvRecalc(); });
+    const mv=(a,b)=>{ if(b<0||b>=uvLayers.length) return; uvSnapshot(); const t=uvLayers[a]; uvLayers[a]=uvLayers[b]; uvLayers[b]=t; uvRenderLayers(); uvRecalc(); };
     d.querySelector('.up').addEventListener('click',()=>mv(i,i-1));
     d.querySelector('.dn').addEventListener('click',()=>mv(i,i+1));
     // drag to reorder (only when grabbing the ≡ handle)
@@ -4580,21 +4782,43 @@ function uvLayerColor(L){
   return '#dfe3e7';
 }
 function svgSection(u){
-  const W=300, H=150, top=10, bot=H-26;
+  const type = ($('uvType')&&$('uvType').value)||'wall';
   const ls=uvLayers.filter(L=>L.isAir||(L.d>0));
   if (!ls.length) return '';
   const tot=ls.reduce((s,L)=>s+Math.max(2,L.d),0)||1;
-  let x=0, out=`<rect x="0" y="${top}" width="${W}" height="${bot-top}" fill="#f4f7fa"/>`;
-  // inside/outside labels
-  ls.forEach((L,i)=>{
-    const w=Math.max(3,(Math.max(2,L.d)/tot)*W); const c=uvLayerColor(L);
-    out+=`<rect x="${x.toFixed(1)}" y="${top}" width="${w.toFixed(1)}" height="${bot-top}" fill="${c}" stroke="#7a818a" stroke-width="0.5"/>`;
-    if (L.isAir){ for(let hx=x+3;hx<x+w-2;hx+=4) out+=`<line x1="${hx.toFixed(1)}" y1="${top}" x2="${(hx-6).toFixed(1)}" y2="${bot}" stroke="#9fb0bf" stroke-width="0.4"/>`; }
-    if (L.bridged){ for(let hx=x+2;hx<x+w;hx+=5) out+=`<line x1="${hx.toFixed(1)}" y1="${top}" x2="${hx.toFixed(1)}" y2="${bot}" stroke="#b5651d" stroke-width="0.6"/>`; }
-    if (w>16){ const lbl=(L.isAir?'air':(L.name||'')).slice(0,14); out+=`<text x="${(x+w/2).toFixed(1)}" y="${bot+9}" font-size="6.5" fill="#555" text-anchor="middle">${escapeHtml(lbl)}</text><text x="${(x+w/2).toFixed(1)}" y="${bot+17}" font-size="6.5" fill="#888" text-anchor="middle">${L.d}mm</text>`; }
-    x+=w;
+  const vertical = (type==='floor' || type==='roof');
+  if (!vertical){
+    // WALL — horizontal, inside (left) → outside (right)
+    const W=300, H=150, top=10, bot=H-26;
+    let x=0, out=`<rect x="0" y="${top}" width="${W}" height="${bot-top}" fill="#f4f7fa"/>`;
+    ls.forEach((L)=>{
+      const w=Math.max(3,(Math.max(2,L.d)/tot)*W); const c=uvLayerColor(L);
+      out+=`<rect x="${x.toFixed(1)}" y="${top}" width="${w.toFixed(1)}" height="${bot-top}" fill="${c}" stroke="#7a818a" stroke-width="0.5"/>`;
+      if (L.isAir){ for(let hx=x+3;hx<x+w-2;hx+=4) out+=`<line x1="${hx.toFixed(1)}" y1="${top}" x2="${(hx-6).toFixed(1)}" y2="${bot}" stroke="#9fb0bf" stroke-width="0.4"/>`; }
+      if (L.bridged){ for(let hx=x+2;hx<x+w;hx+=5) out+=`<line x1="${hx.toFixed(1)}" y1="${top}" x2="${hx.toFixed(1)}" y2="${bot}" stroke="#b5651d" stroke-width="0.6"/>`; }
+      if (w>16){ const lbl=(L.isAir?'air':(L.name||'')).slice(0,14); out+=`<text x="${(x+w/2).toFixed(1)}" y="${bot+9}" font-size="6.5" fill="#555" text-anchor="middle">${escapeHtml(lbl)}</text><text x="${(x+w/2).toFixed(1)}" y="${bot+17}" font-size="6.5" fill="#888" text-anchor="middle">${L.d}mm</text>`; }
+      x+=w;
+    });
+    out+=`<text x="2" y="${top-2}" font-size="7" fill="#3f8b2f">◀ inside (warm)</text><text x="${W-2}" y="${top-2}" font-size="7" fill="#4c9be8" text-anchor="end">outside (cold) ▶</text>`;
+    return `<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">${out}</svg>`;
+  }
+  // FLOOR / ROOF — vertical stack
+  const W=300, H=174, left=8, right=W-96, top=14, bot=H-14;
+  // layers are stored inside→outside. Floor: inside on top. Roof: inside on the bottom (so outside/sky on top).
+  const seq = (type==='roof') ? ls.slice().reverse() : ls.slice();
+  let y=top, out=`<rect x="${left}" y="${top}" width="${right-left}" height="${bot-top}" fill="#f4f7fa"/>`;
+  seq.forEach((L)=>{
+    const h=Math.max(3,(Math.max(2,L.d)/tot)*(bot-top)); const c=uvLayerColor(L);
+    out+=`<rect x="${left}" y="${y.toFixed(1)}" width="${right-left}" height="${h.toFixed(1)}" fill="${c}" stroke="#7a818a" stroke-width="0.5"/>`;
+    if (L.isAir){ for(let hy=y+3;hy<y+h-2;hy+=4) out+=`<line x1="${left}" y1="${hy.toFixed(1)}" x2="${right}" y2="${(hy-6).toFixed(1)}" stroke="#9fb0bf" stroke-width="0.4"/>`; }
+    if (L.bridged){ for(let hy=y+2;hy<y+h;hy+=5) out+=`<line x1="${left}" y1="${hy.toFixed(1)}" x2="${right}" y2="${hy.toFixed(1)}" stroke="#b5651d" stroke-width="0.6"/>`; }
+    if (h>8){ const lbl=(L.isAir?'air':(L.name||'')).slice(0,20); out+=`<text x="${right+5}" y="${(y+h/2+2.2).toFixed(1)}" font-size="6.5" fill="#555">${escapeHtml(lbl)} · ${L.d}mm</text>`; }
+    y+=h;
   });
-  out+=`<text x="2" y="${top-2}" font-size="7" fill="#3f8b2f">◀ inside (warm)</text><text x="${W-2}" y="${top-2}" font-size="7" fill="#4c9be8" text-anchor="end">outside (cold) ▶</text>`;
+  const topLab = type==='floor' ? '▲ inside (warm room above)' : '▲ outside (cold)';
+  const botLab = type==='floor' ? '▼ ground / ventilated void (cold)' : '▼ inside (warm room below)';
+  out+=`<text x="${left}" y="9" font-size="7" fill="#3f8b2f">${topLab}</text>`;
+  out+=`<text x="${left}" y="${H-3}" font-size="7" fill="#4c9be8">${botLab}</text>`;
   return `<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">${out}</svg>`;
 }
 function svgMonthlySmall(g){
@@ -4606,24 +4830,51 @@ function uvRecalc(){
   const type=$('uvType').value, exp=$('uvExp').value;
   const valid=uvLayers.filter(L=>L.isAir|| (L.lambda>0&&L.d>0));
   $('uvSection').innerHTML=svgSection();
-  if (!valid.length){ $('uvU').textContent='—'; $('uvRdetail').textContent=''; $('uvCond').innerHTML=''; UV._last=null; return; }
+  { const cap=$('uvSecCap'); if(cap) cap.textContent = type==='floor' ? 'Section preview (warm room at top → cold ground/void below)' : type==='roof' ? 'Section preview (cold/sky at top → warm room below)' : 'Section preview (inside → outside)'; }
+  // show/hide floor parameters
+  const isFloor = type==='floor';
+  $('uvFloorBox').style.display = isFloor ? 'block' : 'none';
   const u=UV.calcU(type,exp,uvLayers);
   // wall-tie / fastener ΔU correction (walls only)
   const tie=UV.TIES[$('uvTies').value]||UV.TIES.none;
   const du=(type==='wall')?(tie.du||0):0;
   if (du>0){ u.U=u.U+du; u.RT=1/u.U; u.tieDU=du; }
+  // ---- ground-coupled floor (BS EN ISO 13370) ----
+  let uft='', floorInfo=null;
+  if (isFloor){
+    const kind=$('uvFloorKind').value;
+    $('uvSuspBox').style.display = kind==='suspended' ? 'block' : 'none';
+    if (kind!=='exposed'){
+      const Rf = Math.max(0, u.RT - u.Rsi - u.Rse);   // construction resistance only
+      const lam=parseFloat($('uvSoil').value)||2.0;
+      const w=parseFloat($('uvWallThk').value)||0.3;
+      let P=parseFloat($('uvPerim').value), A=parseFloat($('uvArea').value);
+      let pa=parseFloat($('uvPA').value);
+      if ((!pa || pa<=0) && P>0 && A>0){ pa=P/A; $('uvPA').value=pa.toFixed(3); }
+      const haveGeom = pa>0;
+      pa = haveGeom ? pa : 0.5;                         // fallback if not entered
+      const opt={ h:parseFloat($('uvVoidH').value)||0.3, Uw:parseFloat($('uvVoidUw').value)||1.5, eps:parseFloat($('uvVentE').value)||0.0015, v:parseFloat($('uvWind').value)||4 };
+      const gf=UV.groundFloorU(kind, Rf, pa, w, lam, opt);
+      u.U=gf.U; u.RT=1/gf.U; floorInfo=gf;
+      if (kind==='suspended'){
+        const cl=uvCurrentClimate(); let coldT=99,meanT=0,nn=0; Object.keys(cl).forEach(mn=>{ if(cl[mn].Te<coldT)coldT=cl[mn].Te; meanT+=cl[mn].Te; nn++; }); meanT/=nn;
+        const vt=UV.voidTemp(Rf, pa, w, lam, parseFloat($('uvTi').value)||20, coldT, opt);
+        uft=`<br><b style="color:#4c9be8">Under-floor void ≈ ${vt.Tv.toFixed(1)}°C</b> <span style="color:var(--text-dim)">(coldest month) · B′ ${gf.Bp.toFixed(1)}m · Uf ${gf.Uf.toFixed(3)} · Ug+Ux ${(gf.Ug+gf.Ux).toFixed(3)}</span>`;
+      } else {
+        uft=`<br><span style="color:var(--text-dim)">Slab-on-ground · B′ ${gf.Bp.toFixed(1)}m · soil λ ${lam} · w ${w}m</span>`;
+      }
+      $('uvFloorNote').innerHTML = haveGeom ? '' : '<b>Enter perimeter P and area A</b> (or the P/A ratio) for a correct ISO 13370 floor U-value — currently assuming P/A 0.5.';
+    } else {
+      $('uvFloorNote').textContent='';
+    }
+  }
   $('uvU').textContent=u.U.toFixed(3);
   const tgt=UV.targetFor();
   let tline='';
   if (tgt&&tgt.val){ const ok=u.U<=tgt.val+1e-9; tline=`<br><b style="color:${ok?'var(--green)':'var(--danger)'}">${ok?'✓ meets':'✗ exceeds'} target ${tgt.val} W/m²K</b> <span style="color:var(--text-dim)">(${tgt.basis})</span>`; }
-  let uft='';
-  if (type==='floor' && UV._susp){
-    const cl=uvCurrentClimate(); let coldT=99; Object.keys(cl).forEach(mn=>{ if(cl[mn].Te<coldT)coldT=cl[mn].Te; });
-    const uf=UV.underfloorTemp(type,exp,uvLayers,parseFloat($('uvTi').value)||20,coldT);
-    if(uf) uft=`<br><b style="color:#4c9be8">Under-floor void ≈ ${uf.theta.toFixed(1)}°C</b> <span style="color:var(--text-dim)">(coldest month, estimated)</span>`;
-  }
   const duLine = u.tieDU?`<br><span style="color:var(--text-dim)">incl. wall-tie correction ΔU +${u.tieDU}</span>`:'';
-  $('uvRdetail').innerHTML=`Total R = ${u.RT.toFixed(3)} m²K/W &nbsp;·&nbsp; Rsi ${u.Rsi} / Rse ${u.Rse}<br>Combined method: Rmax ${u.Rmax.toFixed(3)} · Rmin ${u.Rmin.toFixed(3)}`+duLine+tline+uft;
+  const rLine = (isFloor && floorInfo) ? `In-ground U (ISO 13370) = ${u.U.toFixed(3)} W/m²K · construction R ${(u.RT).toFixed(2)}` : `Total R = ${u.RT.toFixed(3)} m²K/W &nbsp;·&nbsp; Rsi ${u.Rsi} / Rse ${u.Rse}<br>Combined method: Rmax ${u.Rmax.toFixed(3)} · Rmin ${u.Rmin.toFixed(3)}`;
+  $('uvRdetail').innerHTML=rLine+duLine+tline+uft;
   // condensation — only if ticked
   const doCond=$('uvDoCond').checked;
   $('uvCond').style.display=doCond?'block':'none';
@@ -4743,6 +4994,7 @@ function uvPopulateTemplates(){
 }
 function uvLoadTemplate(idx){
   const t=UV.TEMPLATES[idx]; if(!t) return;
+  if(uvLayers&&uvLayers.length) uvSnapshot();
   uvLayers=t.layers.map(l=>Object.assign(uvNewLayer(),l));
   $('uvType').value=t.type; $('uvExp').value=t.exp||'normal';
   if(!$('uvName').value) $('uvName').value=t.n;
@@ -4751,6 +5003,78 @@ function uvLoadTemplate(idx){
   setHint('Loaded template: '+t.n);
 }
 $('uvTemplate').addEventListener('change',e=>{ if(e.target.value!=='') uvLoadTemplate(parseInt(e.target.value)); });
+
+/* ---------- Picture-select pop-ups ---------- */
+function openPicSelect(title, opts, cur, cb, mapMode){
+  $('picTitle').innerHTML='<em>'+escapeHtml(title)+'</em>';
+  const grid=$('picGrid'); grid.classList.toggle('mapmode',!!mapMode);
+  grid.innerHTML = mapMode ? mapMode : opts.map(o=>`<button class="pic-tile ${String(o.v)===String(cur)?'sel':''}" data-v="${escapeHtml(String(o.v))}"><svg viewBox="0 0 120 64" preserveAspectRatio="xMidYMid meet">${o.svg}</svg><div class="pt">${escapeHtml(o.t)}</div><div class="pn">${escapeHtml(o.n)}</div></button>`).join('');
+  grid.querySelectorAll('.pic-tile,[data-v]').forEach(b=>b.addEventListener('click',()=>{ $('picBack').classList.remove('open'); cb(b.dataset.v); }));
+  $('picBack').classList.add('open');
+}
+$('picClose').addEventListener('click',()=>$('picBack').classList.remove('open'));
+$('picBack').addEventListener('click',e=>{ if(e.target.id==='picBack') $('picBack').classList.remove('open'); });
+// set a <select> by value and fire its input handler
+function setSel(id,v){ const s=$(id); if(!s) return; s.value=v; s.dispatchEvent(new Event('input',{bubbles:true})); s.dispatchEvent(new Event('change',{bubbles:true})); }
+const ICON={
+  wall:'<rect x="46" y="6" width="28" height="52" fill="#c9a06a" stroke="#7a818a"/><rect x="46" y="6" width="7" height="52" fill="#e7e2d8"/>',
+  floor:'<rect x="12" y="26" width="96" height="6" fill="#e3c08a"/><rect x="12" y="32" width="96" height="18" fill="#c9cdd2" stroke="#7a818a"/>',
+  roof:'<path d="M16 52 L60 16 L104 52 Z" fill="#b0673f" stroke="#7a818a"/>',
+};
+function openElementPic(){ openPicSelect('Element type',[
+  {v:'wall',t:'External wall',n:'Vertical element to outside air',svg:ICON.wall},
+  {v:'floor',t:'Ground / exposed floor',n:'Floor to ground, void or open air',svg:ICON.floor},
+  {v:'roof',t:'Roof / ceiling',n:'Element to the sky or loft',svg:ICON.roof},
+], $('uvType').value, v=>setSel('uvType',v)); }
+function openExposurePic(){ openPicSelect('Exposure / shelter (Rse)',[
+  {v:'sheltered',t:'Sheltered (Rse 0.06)',n:'Urban / terraced / protected by other buildings',svg:'<rect x="6" y="30" width="24" height="24" fill="#9fb0bf"/><rect x="36" y="30" width="24" height="24" fill="#8a9bab"/><rect x="66" y="30" width="24" height="24" fill="#9fb0bf"/><rect x="96" y="30" width="18" height="24" fill="#8a9bab"/>'},
+  {v:'normal',t:'Normal (Rse 0.04)',n:'Suburban — SAP 10 default for most jobs',svg:'<path d="M40 30 L60 16 L80 30 Z" fill="#b0673f"/><rect x="44" y="30" width="32" height="24" fill="#9fb0bf"/><rect x="55" y="40" width="10" height="14" fill="#6a7886"/>'},
+  {v:'exposed',t:'Exposed (Rse 0.02)',n:'Coastal, hilltop, high-rise or fully open',svg:'<path d="M0 56 Q30 40 60 50 T120 46" fill="none" stroke="#4c9be8" stroke-width="2"/><path d="M44 34 L60 22 L76 34 Z" fill="#b0673f"/><rect x="48" y="34" width="24" height="18" fill="#9fb0bf"/>'},
+], $('uvExp').value, v=>setSel('uvExp',v)); }
+function openHumidityPic(){ openPicSelect('Internal humidity class (ISO 13788)',[
+  {v:'1',t:'Class 1 — storage',n:'Unoccupied / dry store',svg:'<rect x="40" y="24" width="40" height="30" fill="#c9cdd2"/><path d="M40 24 L60 14 L80 24" fill="#a9adb2"/>'},
+  {v:'2',t:'Class 2 — office/shop',n:'Offices, shops, low occupancy',svg:'<rect x="34" y="18" width="52" height="36" fill="#bcd0e8"/><rect x="42" y="26" width="10" height="10" fill="#fff"/><rect x="56" y="26" width="10" height="10" fill="#fff"/><rect x="70" y="26" width="8" height="10" fill="#fff"/>'},
+  {v:'3',t:'Class 3 — dwelling (low)',n:'Typical dwelling — usual default',svg:'<path d="M40 28 L60 16 L80 28 Z" fill="#b0673f"/><rect x="44" y="28" width="32" height="26" fill="#cfe3c0"/><rect x="55" y="40" width="10" height="14" fill="#6a8a5a"/>'},
+  {v:'4',t:'Class 4 — dwelling (high)',n:'High occupancy / less ventilation',svg:'<path d="M40 28 L60 16 L80 28 Z" fill="#b0673f"/><rect x="44" y="28" width="32" height="26" fill="#f4d29a"/><circle cx="54" cy="40" r="4" fill="#6a7886"/><circle cx="66" cy="40" r="4" fill="#6a7886"/>'},
+  {v:'5',t:'Class 5 — special',n:'Pool, laundry, commercial kitchen',svg:'<rect x="30" y="34" width="60" height="20" fill="#7fc3e8"/><path d="M30 34 Q45 26 60 34 T90 34" fill="none" stroke="#fff" stroke-width="2"/>'},
+], $('uvCls').value, v=>setSel('uvCls',v)); }
+function openTiesPic(){ const o=Object.keys(UV.TIES).map(k=>({v:k,t:UV.TIES[k].label.split('(')[0].trim(),n:(UV.TIES[k].du?('ΔU +'+UV.TIES[k].du+' W/m²K'):'No correction'),svg:k==='none'?'<rect x="30" y="20" width="20" height="24" fill="#d98a5a"/><rect x="70" y="20" width="20" height="24" fill="#c9cdd2"/>':'<rect x="26" y="18" width="18" height="28" fill="#d98a5a"/><rect x="76" y="18" width="18" height="28" fill="#c9cdd2"/><line x1="44" y1="32" x2="76" y2="32" stroke="'+(k==='galv'||k==='dense'?'#8a8f96':'#5fb346')+'" stroke-width="'+(k==='dense'?4:2)+'"/>'+(k==='dense'?'<line x1="44" y1="24" x2="76" y2="24" stroke="#8a8f96" stroke-width="4"/><line x1="44" y1="40" x2="76" y2="40" stroke="#8a8f96" stroke-width="4"/>':'')})); openPicSelect('Wall ties / fasteners',o,$('uvTies').value,v=>setSel('uvTies',v)); }
+function openTemplatePic(){
+  const o=UV.TEMPLATES.map((t,i)=>({v:i,t:t.n,n:t.g+' · '+t.layers.filter(l=>!l.isAir).length+' layers',svg:(t.type==='floor'?ICON.floor:t.type==='roof'?ICON.roof:ICON.wall)}));
+  openPicSelect('Start from a construction',o,'',v=>uvLoadTemplate(parseInt(v)));
+}
+function addPicker(sel, opener){
+  const s=$(sel); if(!s||s._hasPicker) return; s._hasPicker=true;
+  const b=document.createElement('button'); b.className='pic-pickbtn'; b.type='button'; b.textContent='▦ pick'; b.title='Choose with pictures';
+  b.addEventListener('click',e=>{ e.preventDefault(); opener(); });
+  s.insertAdjacentElement('afterend', b);
+}
+function addPickers(){
+  addPicker('uvType',openElementPic);
+  addPicker('uvExp',openExposurePic);
+  addPicker('uvCls',openHumidityPic);
+  addPicker('uvTies',openTiesPic);
+  addPicker('uvClimate',openClimatePic);
+  addPicker('uvTemplate',openTemplatePic);
+}
+// simplified clickable UK climate map
+function openClimatePic(){
+  const cur=$('uvClimate').value;
+  const reg=(v,d,fill,lx,ly,lab)=>`<path d="${d}" fill="${fill}" stroke="#26292d" stroke-width="1.2" data-v="${v}" style="cursor:pointer"/><text x="${lx}" y="${ly}" font-size="7" fill="#1b1d20" text-anchor="middle" data-v="${v}" style="cursor:pointer;font-weight:600">${lab}</text>`;
+  const map=`<div style="display:flex;gap:18px;flex-wrap:wrap;align-items:center;justify-content:center">
+    <svg viewBox="0 0 200 280" style="width:230px;height:auto;background:#eaf2fb;border-radius:10px">
+      ${reg('Scotland','M70 8 L120 18 L110 60 L60 70 L55 35 Z','#9bd1a0',88,42,'Scotland')}
+      ${reg('N. Ireland','M30 78 L62 74 L66 100 L34 104 Z','#bfe0c2',48,92,'N.Ire')}
+      ${reg('England (north)','M60 72 L112 62 L120 110 L70 120 Z','#a7c83a',92,95,'N England')}
+      ${reg('Wales','M62 122 L92 116 L96 150 L66 156 Z','#f4c430',79,140,'Wales')}
+      ${reg('England (south)','M96 116 L150 120 L150 180 L92 186 L96 150 Z','#e8923d',122,158,'S England')}
+    </svg>
+    <div style="display:flex;flex-direction:column;gap:8px">
+      <button class="pic-tile" data-v="UK national" style="min-width:160px"><div class="pt">🇬🇧 UK national</div><div class="pn">National average climate — use when the region is unknown</div></button>
+      <div class="pn" style="max-width:170px">Or tap a region on the map. Warmer south → cooler north.</div>
+    </div></div>`;
+  openPicSelect('Climate region', [], cur, v=>setSel('uvClimate',v), map);
+}
 
 // estimated ventilated under-floor void temperature (simplified) for suspended floors
 UV.underfloorTemp=function(type, exposure, layers, Ti, Te){
@@ -4769,6 +5093,7 @@ function openUval(opts){
   const tie=$('uvTies'); if(!tie.options.length){ tie.innerHTML=Object.keys(UV.TIES).map(k=>`<option value="${k}">${UV.TIES[k].label}</option>`).join(''); }
   uvPopulateTemplates();
   uvPopulateSources();
+  addPickers();
   if (opts&&opts.name) $('uvName').value=opts.name;
   if (opts&&opts.wall) $('uvWall').value=opts.wall;
   if (opts&&opts.detail) $('uvDetail').value=opts.detail;
@@ -4779,9 +5104,18 @@ function openUval(opts){
 $('btnUval').addEventListener('click',switchToUval);
 $('uvalClose').addEventListener('click',switchToPdf);
 $('uvalBack').addEventListener('click',e=>{ if(e.target.id==='uvalBack' && !document.body.classList.contains('mode-uval')) $('uvalBack').classList.remove('open'); });
-$('uvAddLayer').addEventListener('click',()=>{ uvLayers.push(uvNewLayer()); uvRenderLayers(); uvRecalc(); });
-$('uvAddAir').addEventListener('click',()=>{ uvLayers.push(uvNewAir()); uvRenderLayers(); uvRecalc(); });
-['uvType','uvExp','uvTi','uvCls','uvRH','uvClimate','uvTarget','uvTargetU','uvDoCond','uvName','uvWall','uvDetail','uvTies'].forEach(id=>$(id).addEventListener('input',()=>{ $('uvFixedRow').style.display=$('uvCls').value==='fixed'?'flex':'none'; $('uvTargetCustomRow').style.display=$('uvTarget').value==='custom'?'flex':'none'; uvRecalc(); }));
+// ---- U-value layer undo/redo ----
+let uvHist=[], uvRedoStack=[];
+function uvSnapshot(){ try{ uvHist.push(JSON.stringify(uvLayers)); if(uvHist.length>60) uvHist.shift(); uvRedoStack=[]; }catch(e){} uvUpdateUndoBtns(); }
+function uvUpdateUndoBtns(){ const u=$('uvUndo'),r=$('uvRedo'); if(u) u.disabled=!uvHist.length; if(r) r.disabled=!uvRedoStack.length; }
+function uvUndo(){ if(!uvHist.length) return; uvRedoStack.push(JSON.stringify(uvLayers)); uvLayers=JSON.parse(uvHist.pop()); uvRenderLayers(); uvRecalc(); uvUpdateUndoBtns(); }
+function uvRedo(){ if(!uvRedoStack.length) return; uvHist.push(JSON.stringify(uvLayers)); uvLayers=JSON.parse(uvRedoStack.pop()); uvRenderLayers(); uvRecalc(); uvUpdateUndoBtns(); }
+$('uvUndo').addEventListener('click',uvUndo);
+$('uvRedo').addEventListener('click',uvRedo);
+$('uvAddLayer').addEventListener('click',()=>{ uvSnapshot(); uvLayers.push(uvNewLayer()); uvRenderLayers(); uvRecalc(); });
+$('uvAddAir').addEventListener('click',()=>{ uvSnapshot(); uvLayers.push(uvNewAir()); uvRenderLayers(); uvRecalc(); });
+['uvType','uvExp','uvTi','uvCls','uvRH','uvClimate','uvTarget','uvTargetU','uvDoCond','uvName','uvWall','uvDetail','uvTies',
+ 'uvFloorKind','uvSoil','uvPerim','uvArea','uvPA','uvWallThk','uvVoidH','uvVoidUw','uvVentE','uvWind'].forEach(id=>$(id)&&$(id).addEventListener('input',()=>{ $('uvFixedRow').style.display=$('uvCls').value==='fixed'?'flex':'none'; $('uvTargetCustomRow').style.display=$('uvTarget').value==='custom'?'flex':'none'; if(id==='uvPerim'||id==='uvArea'){ const P=parseFloat($('uvPerim').value),A=parseFloat($('uvArea').value); if(P>0&&A>0) $('uvPA').value=(P/A).toFixed(3); } uvRecalc(); }));
 document.querySelectorAll('.uv-help').forEach(h=>h.addEventListener('click',()=>alert(UV.HELP[h.dataset.help]||'')));
 // import a tagged build-up
 
@@ -4855,35 +5189,49 @@ function svgMonthly(g){
 function reportHeaderHTML(title){
   const s=settings||{}; const a=s.assessor||{};
   const logo = s.reportLogo ? `<img src="${s.reportLogo}" style="max-height:54px;max-width:200px">` : `<div style="font-weight:700;color:#3f8b2f;font-size:16px">${escapeHtml(a.company||'EA PDF')}</div>`;
-  const who=[a.name,a.qual,a.scheme&&('Scheme: '+a.scheme),a.email,a.phone].filter(Boolean).map(escapeHtml).join(' · ');
-  return `<div class="rpt-band"><div><h1>${title}</h1><div class="sub">Generated ${new Date().toLocaleDateString()} · EA PDF</div></div><div style="text-align:right">${logo}${who?`<div style="font-size:10.5px;color:#666;margin-top:4px">${who}</div>`:''}</div></div>`;
+  const who=[a.name,a.qual,a.scheme&&('Scheme: '+a.scheme),a.email,a.phone].filter(Boolean).map(escapeHtml).join('<br>');
+  return `<div class="rpt-band"><div><h1>${title}</h1><div class="sub">Generated ${new Date().toLocaleDateString()}</div><span class="brandtag">EA PDF · Thermal Assessment</span></div><div class="who">${logo}${who?`<div style="margin-top:5px">${who}</div>`:''}</div></div>`;
+}
+function reportFooterHTML(){
+  return `<div class="rpt-foot"><span>EA PDF — design, take-off &amp; checking tool. Confirm compliance results in accredited software before submission.</span><span>BS EN ISO 6946 · 13370 · 13788</span></div>`;
 }
 function reportCSS(){ return `<style>
   *{box-sizing:border-box}
-  body{font-family:'Segoe UI',-apple-system,Arial,sans-serif;color:#222;margin:0;font-size:13px;background:#f4f5f6}
-  .page{max-width:880px;margin:18px auto;background:#fff;padding:30px 36px;box-shadow:0 2px 14px rgba(0,0,0,.08)}
-  h1{font-size:21px;margin:0} h2{font-size:15px;margin:24px 0 10px;color:#2c3e22;display:flex;align-items:center;gap:8px}
-  h2:before{content:'';width:5px;height:16px;background:#5fb346;border-radius:2px;display:inline-block}
-  .sub{color:#888;font-size:11.5px;margin-top:3px}
-  .rpt-band{display:flex;justify-content:space-between;align-items:flex-start;border-bottom:3px solid #5fb346;padding-bottom:14px;margin-bottom:8px}
-  table{border-collapse:collapse;width:100%;margin:8px 0 6px;font-size:12px}
-  th,td{border:1px solid #dde2e6;padding:6px 8px;text-align:left} th{background:#eef4ea;color:#33502a}
-  tr:nth-child(even) td{background:#fafbfa}
+  body{font-family:'Segoe UI',-apple-system,Arial,sans-serif;color:#1f2937;margin:0;font-size:13px;background:#eef1f4;line-height:1.5}
+  .page{max-width:900px;margin:22px auto;background:#fff;padding:0 0 34px;box-shadow:0 6px 30px rgba(15,23,42,.12);border-radius:6px;overflow:hidden}
+  .page>*:not(.rpt-band):not(.rpt-foot){margin-left:40px;margin-right:40px}
+  h1{font-size:22px;margin:0;letter-spacing:-.2px}
+  h2{font-size:15px;margin:26px 0 10px;color:#1f3d14;display:flex;align-items:center;gap:9px;text-transform:uppercase;letter-spacing:.6px}
+  h2:before{content:'';width:6px;height:17px;background:linear-gradient(#5fb346,#3f8b2f);border-radius:3px;display:inline-block}
+  .sub{color:#8a94a0;font-size:11.5px;margin-top:3px}
+  /* branded header band */
+  .rpt-band{display:flex;justify-content:space-between;align-items:flex-start;gap:18px;padding:24px 40px 18px;background:linear-gradient(135deg,#1f3d14,#2c5220);color:#fff;margin:0}
+  .rpt-band h1{color:#fff} .rpt-band .sub{color:#cfe0c4}
+  .rpt-band .who{text-align:right;font-size:11.5px;color:#e7f0e1;line-height:1.55}
+  .rpt-band .who img{max-height:46px;max-width:160px;background:#fff;border-radius:5px;padding:3px;margin-bottom:6px}
+  .rpt-band .brandtag{display:inline-block;margin-top:6px;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#bcd9af}
+  table{border-collapse:collapse;width:100%;margin:10px 0 6px;font-size:12px;box-shadow:0 1px 0 #e5e9ee}
+  th,td{border:1px solid #e3e8ee;padding:7px 9px;text-align:left}
+  th{background:#1f3d14;color:#fff;font-weight:600;border-color:#1f3d14}
+  tr:nth-child(even) td{background:#f6f9f4}
+  tr:last-child td{font-weight:700;background:#eef4ea}
   .num{text-align:right;font-variant-numeric:tabular-nums}
-  .verdict{display:flex;align-items:center;gap:14px;padding:14px 18px;border-radius:10px;margin:10px 0}
-  .verdict.ok{background:#eaf6e6;border:1px solid #bfe0ad} .verdict.no{background:#fdecec;border:1px solid #f3c0c0}
-  .verdict .u{font-size:30px;font-weight:800}
+  .verdict{display:flex;align-items:center;gap:16px;padding:16px 20px;border-radius:12px;margin:12px 0}
+  .verdict.ok{background:linear-gradient(135deg,#eaf6e6,#dbeed2);border:1px solid #bfe0ad}
+  .verdict.no{background:linear-gradient(135deg,#fdecec,#fbdddd);border:1px solid #f3c0c0}
+  .verdict .u{font-size:34px;font-weight:800;letter-spacing:-1px}
   .verdict.ok .u{color:#2e7d32} .verdict.no .u{color:#c62828}
-  .verdict .meta{font-size:12px;color:#555}
-  .tag{display:inline-block;background:#eef4ea;border:1px solid #cfe0c4;border-radius:6px;padding:2px 8px;font-size:11px;margin:0 4px 4px 0}
+  .verdict .meta{font-size:12px;color:#4b5563}
+  .tag{display:inline-block;background:#eef4ea;border:1px solid #cfe0c4;border-radius:20px;padding:3px 11px;font-size:11px;margin:0 5px 5px 0;color:#33502a}
   .pass{color:#2e7d32;font-weight:700}.fail{color:#c62828;font-weight:700}
-  .box{background:#f7f9f7;border:1px solid #e2e8e0;border-radius:8px;padding:12px 14px;margin:8px 0;font-size:12.5px}
-  .box.warn{background:#fff7ed;border-color:#f0d9b5}
-  .box h3{margin:0 0 6px;font-size:12.5px;color:#33502a}
+  .box{background:#f7f9fb;border:1px solid #e6ebf1;border-left:4px solid #9bb89a;border-radius:8px;padding:13px 16px;margin:10px 0;font-size:12.5px}
+  .box.warn{background:#fff8ef;border-left-color:#e8a33d;border-color:#f0dcbb}
+  .box h3{margin:0 0 6px;font-size:12.5px;color:#1f3d14;text-transform:uppercase;letter-spacing:.4px}
   ul{margin:6px 0;padding-left:18px} li{margin:3px 0}
-  .note{font-size:10.5px;color:#888;margin-top:6px}
-  .chart{margin:10px 0;text-align:center}
-  @media print{ body{background:#fff} .page{box-shadow:none;margin:0;max-width:100%;padding:6mm} .noprint{display:none} }
+  .note{font-size:10.5px;color:#8a94a0;margin-top:6px}
+  .chart{margin:12px 0;text-align:center;background:#fbfcfd;border:1px solid #eef1f4;border-radius:8px;padding:10px}
+  .rpt-foot{margin:26px 40px 0;padding-top:12px;border-top:1px solid #e3e8ee;font-size:10px;color:#9aa3ad;display:flex;justify-content:space-between}
+  @media print{ body{background:#fff} .page{box-shadow:none;margin:0;max-width:100%;border-radius:0} h2{break-after:avoid} table,.verdict,.chart,.box{break-inside:avoid} .noprint{display:none} }
 </style>`; }
 function uvReportHTML(kind){
   const d=UV._last; if(!d&&kind!=='validation') return reportCSS()+'<div class="page"><p>Add some layers first.</p></div>';
@@ -4929,6 +5277,7 @@ function uvReportHTML(kind){
     else body+=`<div class="box warn"><h3>Why it fails &amp; how to fix it</h3>Moisture condenses at interface ${g.plane} and does not fully dry out within the year (peak ${g.maxAccum.toFixed(0)} g/m²). Typical remedies:<ul><li>Add a <b>vapour control layer (VCL/AVCL)</b> on the warm (internal) side to limit vapour entering the build-up.</li><li>Make the <b>outer layers more vapour-open</b> (lower μ) so trapped moisture can escape — e.g. a breather membrane and ventilated cavity.</li><li>Use <b>foil-faced insulation</b> positioned so the high-resistance facing is on the warm side.</li><li>Move more of the insulation outboard so the structure stays warmer (above dew point).</li><li>Increase ventilation of any cavity to the outside.</li></ul></div>`;
   }
   body+=`<h2>Notes &amp; compliance</h2><div class="note">Design-stage calculation per BS EN ISO 6946 (U-value, combined method) and BS EN ISO 13788 (Glaser condensation), with SAP 10 surface-resistance conventions. Target U-values are indicative Part L (England) figures — confirm the applicable standard, region and value against the current Approved Document L. Material λ and μ values are indicative — confirm against current product datasheets/BBA certificates. For Part L compliance submissions, verify results in accredited software. Produced with EA PDF.</div>`;
+  body+=reportFooterHTML();
   body+=`<div class="noprint" style="margin-top:18px;text-align:center"><button onclick="window.print()" style="padding:9px 20px;font-size:14px;background:#5fb346;color:#fff;border:none;border-radius:7px;cursor:pointer">Print / Save as PDF</button></div>`;
   return reportCSS()+'<div class="page">'+body+'</div>';
 }
@@ -4962,6 +5311,7 @@ UV.runValidation=function(){
 };
 function openReport(){
   const kind=$('uvRepType').value;
+  if(!kind){ setHint('Choose a report type first'); pulseEl('#uvRepType'); return; }
   const html=uvReportHTML(kind);
   const w=window.open('','_blank');
   if(!w){ alert('Pop-up blocked — allow pop-ups to open the report.'); return; }
@@ -5104,6 +5454,7 @@ function setHelpMode(on){
   helpMode=on; document.body.classList.toggle('help-mode',on);
   $('helpBanner').classList.toggle('open',on);
   $('btnExplain').classList.toggle('active',on);
+  $('uvExplainBtn').classList.toggle('on',on);
   if(!on) $('helpPop').classList.remove('open');
 }
 function showHelpPop(x,y,info){

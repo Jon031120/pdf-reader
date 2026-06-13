@@ -1,5 +1,5 @@
 /* EA PDF service worker — caches the app + libraries so it works offline */
-const CACHE = 'ea-pdf-v33';
+const CACHE = 'ea-pdf-v35';
 const CORE = ['./', './index.html', './manifest.json', './icon-192.png', './icon-512.png', './materials.json'];
 
 self.addEventListener('install', e => {
