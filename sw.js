@@ -1,5 +1,5 @@
-/* EA PDF service worker — caches the app + libraries so it works offline */
-const CACHE = 'ea-pdf-v37';
+/* EA PDF service worker — network-first for the app HTML, cache-first for libraries */
+const CACHE = 'ea-pdf-v38';
 const CORE = ['./', './index.html', './manifest.json', './icon-192.png', './icon-512.png', './materials.json'];
 
 self.addEventListener('install', e => {
@@ -15,6 +15,20 @@ self.addEventListener('activate', e => {
 });
 self.addEventListener('fetch', e => {
   if (e.request.method !== 'GET') return;
+  const url = new URL(e.request.url);
+  const isDoc = e.request.mode === 'navigate' || url.pathname.endsWith('/') || url.pathname.endsWith('index.html');
+  if (isDoc) {
+    // network-first: always try to fetch the latest page, fall back to cache offline
+    e.respondWith(
+      fetch(e.request).then(res => {
+        const copy = res.clone();
+        if (res.ok) caches.open(CACHE).then(c => c.put('./index.html', copy)).catch(()=>{});
+        return res;
+      }).catch(() => caches.match(e.request).then(h => h || caches.match('./index.html')))
+    );
+    return;
+  }
+  // everything else (libraries, icons, materials): cache-first
   e.respondWith(
     caches.match(e.request).then(hit => hit || fetch(e.request).then(res => {
       const copy = res.clone();

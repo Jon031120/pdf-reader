@@ -2045,15 +2045,16 @@ function selectRegion(id){
 // zoom the viewer to fit a detail region
 async function zoomToRegion(id){
   const r=regionById(id); if(!r) return;
-  if (r.page!==state.pageNum){ state.pageNum=r.page; await renderPage(); }
-  const vw=vwrap.getBoundingClientRect();
+  const vw=vwrap.getBoundingClientRect();          // viewport size is constant across zoom
   const margin=60;
   let z=Math.min((vw.width-margin)/Math.max(1,r.w), (vw.height-margin)/Math.max(1,r.h));
   z=Math.max(0.2, Math.min(5, z));
-  await setZoom(z);                 // wait for the re-render + scroll restore, THEN centre
-  // centre the viewport on the region (content is base-coords × zoom)
-  vwrap.scrollLeft = (r.x + r.w/2)*state.zoom - vwrap.clientWidth/2;
-  vwrap.scrollTop  = (r.y + r.h/2)*state.zoom - vwrap.clientHeight/2;
+  if (r.page!==state.pageNum) state.pageNum=r.page;
+  state.zoom=z;                                    // set zoom directly, then re-render (same path as search-centre)
+  await renderPage();
+  $('zoomPct').textContent=Math.round(z*100)+'%';
+  vwrap.scrollLeft=(r.x+r.w/2)*z - vw.width/2;
+  vwrap.scrollTop =(r.y+r.h/2)*z - vw.height/2;
   selectRegion(id); drawOverlay();
   setHint('Zoomed to "'+(r.title||'Detail')+'"');
 }
